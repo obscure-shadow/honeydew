@@ -5,8 +5,7 @@ import Login from './auth/login.js';
 
 class App extends Component {
   state = {
-    currentView: "login",
-    activeUser: localStorage.getItem("userId")
+    activeUser: "",
   }
   setActiveUser = function (val) {
     this.setState({
