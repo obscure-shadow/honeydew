@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Login from './auth/login.js';
-import Home from './dash/home.js';
 
 class App extends Component {
   state = {
@@ -14,18 +13,6 @@ class App extends Component {
       activeUser: val
     })
   }.bind(this)
-
-  View = () => {
-    if (localStorage.getItem("yakId") === null) {
-        return <Login showView={this.showView} setActiveUser={this.setActiveUser} />
-    } else {
-        switch (this.state.currentView) {
-            case "home":
-            default:
-                return <Home activeUser={this.state.activeUser} />
-        }
-    }
-}
 
   render() {
     return (

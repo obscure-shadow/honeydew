@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Login from './auth/login.js';
-import Home from './dash/home.js';
 
 class App extends Component {
   state = {
@@ -20,6 +19,10 @@ class App extends Component {
         return <Login showView={this.showView} setActiveUser={this.setActiveUser} />
     } else {
         switch (this.state.currentView) {
+            case "logout":
+                return <Login showView={this.showView} setActiveUser={this.setActiveUser} />
+            case "results":
+                return <SearchResults terms={this.state.searchTerms} />
             case "home":
             default:
                 return <Home activeUser={this.state.activeUser} />

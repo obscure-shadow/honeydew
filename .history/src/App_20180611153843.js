@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Login from './auth/login.js';
-import Home from './dash/home.js';
 
 class App extends Component {
   state = {
