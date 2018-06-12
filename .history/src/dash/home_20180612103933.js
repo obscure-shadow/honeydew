@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class Home extends Component {
     state = {
         currentView: "Home",
+        activeUser: ""
     }
     render() {
         return (

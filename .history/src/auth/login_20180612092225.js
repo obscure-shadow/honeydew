@@ -31,7 +31,7 @@ class Login extends Component {
                 sessionStorage.setItem("userId", user.name)
                 // set active user state on app.js to user name
                 this.props.setActiveUser(user.name)
-                this.props.showView("home")
+                this.props.setView("home")
             })
     }.bind(this);
 

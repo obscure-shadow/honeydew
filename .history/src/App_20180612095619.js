@@ -7,7 +7,7 @@ import Home from './dash/home.js';
 class App extends Component {
   state = {
     currentView: "login",
-    activeUser: sessionStorage.getItem("userId")
+    activeUser: localStorage.getItem("userId")
   }
   setActiveUser = function (val) {
     this.setState({
@@ -27,7 +27,8 @@ class App extends Component {
   }.bind(this)
 
   View = () => {
-    if (sessionStorage.getItem("userId") === null) {
+    debugger
+    if (localStorage.getItem("userId") === null) {
         return <Login showView={this.showView} setActiveUser={this.setActiveUser} />
     } else {
         switch (this.state.currentView) {

@@ -7,7 +7,7 @@ import Home from './dash/home.js';
 class App extends Component {
   state = {
     currentView: "login",
-    activeUser: sessionStorage.getItem("userId")
+    activeUser: localStorage.getItem("userId")
   }
   setActiveUser = function (val) {
     this.setState({
@@ -15,19 +15,8 @@ class App extends Component {
     })
   }.bind(this)
 
-    // View switcher -> passed to NavBar and Login
-    // Argument can be an event (via NavBar) or a string (via Login)
-    showView = function (view) {
-      // Update state to correct view will be rendered
-      this.setState({
-          currentView: view
-
-      })
-
-  }.bind(this)
-
   View = () => {
-    if (sessionStorage.getItem("userId") === null) {
+    if (localStorage.getItem("userId") === null) {
         return <Login showView={this.showView} setActiveUser={this.setActiveUser} />
     } else {
         switch (this.state.currentView) {
@@ -40,16 +29,13 @@ class App extends Component {
 
   render() {
     return (
-      <article>
-        {this.View()}
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
-
+          <Login setActiveUser={this.setActiveUser} />
         </header>
       </div>
-      </article>
     );
   }
 }

@@ -7,7 +7,7 @@ import Home from './dash/home.js';
 class App extends Component {
   state = {
     currentView: "login",
-    activeUser: sessionStorage.getItem("userId")
+    activeUser: localStorage.getItem("userId")
   }
   setActiveUser = function (val) {
     this.setState({
