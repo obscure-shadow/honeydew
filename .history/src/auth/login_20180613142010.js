@@ -14,8 +14,7 @@ class Login extends Component {
             //parse user object
             .then(r => r.json())
 
-            .then(users => {
-                const user = users[0]
+            .then(user => {
                 //check to see if user exists, if not send error message.
                 if (user === undefined) {
                     alert(this.state.errorMessage)
@@ -27,6 +26,7 @@ class Login extends Component {
                             or something like that sometime....
                     */
                 }
+                debugger
                 // add user to session storage, because like, ya know, why not?
                 sessionStorage.setItem("userId", user.name)
                 console.log(this.props)

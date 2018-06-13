@@ -27,6 +27,7 @@ class Login extends Component {
                             or something like that sometime....
                     */
                 }
+                debugger
                 // add user to session storage, because like, ya know, why not?
                 sessionStorage.setItem("userId", user.name)
                 console.log(this.props)
