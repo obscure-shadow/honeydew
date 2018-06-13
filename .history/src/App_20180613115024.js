@@ -27,7 +27,7 @@ class App extends Component {
   View = () => {
     if (sessionStorage.getItem("userId") === null) {
       return (
-        <Login setActiveUser={this.setActiveUser} showView={this.showView} />
+        <Login setActiveUser={this.setActiveUser} setView={this.showView} />
       );
       /* TODO:
 
@@ -48,7 +48,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Nav showView={this.showView}
+        <Nav setView={this.setView}
           activeUser={this.state.activeUser}
           setActiveUser={this.setActiveUser} />
         {this.View()}

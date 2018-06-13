@@ -8,17 +8,19 @@ class Home extends Component {
     }
     render() {
         return (
+            <body>
                 <Columns isCentered>
-                    <Column isSize='1/3'>Toolbox:
+                    <Column isSize='1/3'>
                         <Notification color="success"></Notification>
                     </Column>
-                    <Column isSize='1/3'>Tools To Get:
+                    <Column isSize='1/3'>
                         <Notification color="success"></Notification>
                     </Column>
-                    <Column isSize='1/3'>Projects:
+                    <Column isSize='1/3'>
                         <Notification color="success"></Notification>
                     </Column>
                 </Columns>
+            </body>
         )
     }
 }

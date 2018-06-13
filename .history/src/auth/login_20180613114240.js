@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Field, FieldBody, Input, Button } from 'bloomer';
+import App from '../App.js'
 
 class Login extends Component {
     // initialize state username as an empty string
@@ -28,7 +29,6 @@ class Login extends Component {
                 }
                 // add user to session storage, because like, ya know, why not?
                 sessionStorage.setItem("userId", user.name)
-                console.log(this.props)
                 // set active user state on app.js to user name
                 this.props.setActiveUser(user.name)
                 this.props.showView("home")

@@ -48,7 +48,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Nav showView={this.showView}
+        <Nav showView={this.setView}
           activeUser={this.state.activeUser}
           setActiveUser={this.setActiveUser} />
         {this.View()}

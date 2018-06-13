@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Field, FieldBody, Input, Button } from 'bloomer';
+import App from '../App.js'
 
 class Login extends Component {
     // initialize state username as an empty string

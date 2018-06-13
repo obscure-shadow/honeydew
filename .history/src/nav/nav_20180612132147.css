@@ -1,0 +1,13 @@
+#input__search {
+    width: 200px;
+    margin-right: 1em;
+}
+
+.nav__pointer {
+    cursor: pointer;
+}
+
+.profile__image {
+    border-radius: 50%;
+    margin-right: 7px;
+}

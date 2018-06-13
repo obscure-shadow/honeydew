@@ -8,6 +8,7 @@ class Home extends Component {
     }
     render() {
         return (
+            <body>
                 <Columns isCentered>
                     <Column isSize='1/3'>Toolbox:
                         <Notification color="success"></Notification>
@@ -19,6 +20,7 @@ class Home extends Component {
                         <Notification color="success"></Notification>
                     </Column>
                 </Columns>
+            </body>
         )
     }
 }
