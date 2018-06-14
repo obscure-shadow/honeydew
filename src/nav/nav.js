@@ -23,7 +23,7 @@ class Nav extends Component {
                     <NavbarBurger isActive={this.state.isActive} onClick={this.onClickNav} />
                     <NavbarItem id="nav__home" onClick={this.props.showView}>Home</NavbarItem>
                     <NavbarItem id="nav__tool" onClick={this.props.showView}>Add Tool</NavbarItem>
-                    <NavbarItem>Add Project</NavbarItem>
+                    <NavbarItem id="nav__task" onClick={this.props.showView}>Add Project</NavbarItem>
                     <NavbarEnd>
                         <NavbarItem>Welcome to Honeydew, {this.props.userName}</NavbarItem>
                     </NavbarEnd>

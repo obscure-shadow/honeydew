@@ -4,6 +4,7 @@ import Login from "./auth/login.js";
 import Home from "./dash/home.js";
 import Nav from "./nav/nav.js";
 import Tool from "./add/addtool.js"
+import Task from "./add/addtask.js"
 class App extends Component {
   state = {
     currentView: "login",
@@ -68,6 +69,8 @@ class App extends Component {
           return <Home activeUser={this.state.activeUser} />;
         case "tool":
           return <Tool activeUser={this.state.activeUser} showView={this.showView}/>
+        case "task":
+          return <Task activeUser={this.state.activeUser} showView={this.showView}/>
       }
     }
   };
