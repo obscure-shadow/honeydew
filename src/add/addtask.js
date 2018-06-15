@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { Field, Input, Button } from "bloomer";
 class Task extends Component {
     state = {
-        name:"",
-        description:"",
+        taskName:"",
+        taskDescription:"",
         estTime:"",
         supplyCost:"",
-        startTime:"",
-        endTime:"",
+        finalTime:"",
         owner: this.props.activeUser,
         errorMessage: "You must complete every field"
     }
@@ -21,12 +20,11 @@ class Task extends Component {
         evt.preventDefault()
 
         const newTask = {
-            name:this.state.name,
-            description: this.state.description,
+            name:this.state.taskName,
+            description: this.state.taskDescription,
             estTime: this.state.estTime,
             supplyCost: this.state.supplyCost,
-            startTime: this.state.startTime,
-            endTime: this.state.endTime,
+            finalTime: this.state.finalTime,
             owner: this.props.activeUser,
         }
 
@@ -43,18 +41,19 @@ class Task extends Component {
                 })
 
                 if (
-                    this.state.name === "" ||
-                    this.state.description === "" ||
+                    this.state.taskName === "" ||
+                    this.state.taskDescription === "" ||
                     this.state.estTime === "" ||
                     this.state.supplyCost === "" ||
                     this.state.owner === null
                 ) {
+                    //debugger
                     alert(this.state.errorMessage)
                 } else if (!projectUniqueCheck) {
                     projectUniqueCheck = true
                     alert("Project is already registered")
                 } else {
-                    fetch("http://localhost:8088/tool", {
+                    fetch("http://localhost:8088/project", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -74,24 +73,31 @@ class Task extends Component {
             <form className="addTool--form" onSubmit={this.handleSubmit}>
                 <Field>
                     <Input type="text"
-                        id='toolName'
-                        value={this.state.toolName}
+                        id='taskName'
+                        value={this.state.taskName}
                         onChange={this.handleFormFieldChange}
                         placeholder='name'></Input>
                 </Field>
                 <Field>
                     <Input type="text"
-                        id='toolPrice'
-                        value={this.state.toolPrice}
+                        id='taskDescription'
+                        value={this.state.taskDescription}
                         onChange={this.handleFormFieldChange}
-                        placeholder='price'></Input>
+                        placeholder='description'></Input>
                 </Field>
                 <Field>
                     <Input type="text"
-                        id='toolStatus'
-                        falue={this.state.toolStatus}
+                        id='estTime'
+                        value={this.state.estTime}
                         onChange={this.handleFormFieldChange}
-                        placeholder='owned yes or no'></Input>
+                        placeholder='estimated time to completion'></Input>
+                </Field>
+                <Field>
+                    <Input type="text"
+                        id='supplyCost'
+                        value={this.state.supplyCost}
+                        onChange={this.handleFormFieldChange}
+                        placeholder='estimated cost of supplies'></Input>
                 </Field>
                 <Button type="submit">Submit</Button>
             </form>

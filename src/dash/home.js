@@ -7,7 +7,8 @@ class Home extends Component {
     state = {
         currentView: "Home",
         ownedBoxes:[],
-        unownedBoxes:[]
+        unownedBoxes:[],
+        projects:[]
 
     }
     componentDidMount() {
@@ -29,6 +30,16 @@ class Home extends Component {
                     unownedBoxes: unbox
                 })
         })
+
+        fetch(`http://localhost:8088/project?owner=${this.props.activeUser}`)
+        .then(p=> p.json())
+        .then(projects => {
+            let proj = []
+                projects.forEach( project => proj.push(project))
+                this.setState({
+                    projects: proj
+                })
+        })
     }
 
 
@@ -38,19 +49,27 @@ class Home extends Component {
                     <Column isSize='1/3'>Toolbox:
                         <Notification color="success">
                             {this.state.ownedBoxes.map(t => (
-                                <Box key={t.id}> <h3>Tool: {t.toolName} </h3> Price: ${t.toolPrice} </Box>
+                                <Box key={t.id}> <h3>Tool: {t.toolName} </h3>
+                                    Price: ${t.toolPrice} </Box>
                             ))}
                         </Notification>
                     </Column>
                     <Column isSize='1/3'>Tools To Get:
                         <Notification color="success">
-                        {this.state.unownedBoxes.map(t => (
-                                <Box key={t.id}> <h3>Tool: {t.toolName} </h3> Price: ${t.toolPrice} </Box>
-                            ))}
+                            {this.state.unownedBoxes.map(t => (
+                                    <Box key={t.id}> <h3>Tool: {t.toolName} </h3>
+                                        Price: ${t.toolPrice} </Box>
+                                ))}
                         </Notification>
                     </Column>
                     <Column isSize='1/3'>Projects:
-                        <Notification color="success"></Notification>
+                        <Notification color="success">
+                            {this.state.projects.map(p => (
+                                    <Box key={p.id}> <h3>Project: {p.name} </h3>Description:
+                                        <p>{p.description}</p>
+                                        Estimated Cost: ${p.supplyCost} </Box>
+                                ))}
+                        </Notification>
                     </Column>
                 </Columns>
         )
