@@ -7,6 +7,7 @@ class Task extends Component {
         estTime:"",
         supplyCost:"",
         finalTime:"",
+        finished:"no",
         owner: this.props.activeUser,
         errorMessage: "You must complete every field"
     }
@@ -25,6 +26,7 @@ class Task extends Component {
             estTime: this.state.estTime,
             supplyCost: this.state.supplyCost,
             finalTime: this.state.finalTime,
+            finished: this.state.finished,
             owner: this.props.activeUser,
         }
 

@@ -5,6 +5,7 @@ import Home from "./dash/home.js";
 import Nav from "./nav/nav.js";
 import Tool from "./add/addtool.js"
 import Task from "./add/addtask.js"
+import Project from "./projects/project.js"
 class App extends Component {
   state = {
     currentView: "login",
@@ -66,11 +67,13 @@ class App extends Component {
       switch (this.state.currentView) {
         case "home":
         default:
-          return <Home activeUser={this.state.activeUser} />;
+          return <Home activeUser={this.state.activeUser} showView={this.showView} />;
         case "tool":
           return <Tool activeUser={this.state.activeUser} showView={this.showView}/>
         case "task":
           return <Task activeUser={this.state.activeUser} showView={this.showView}/>
+        case "project":
+          return <Project activeUser={this.state.activeUser} showView={this.showView}/>
       }
     }
   };

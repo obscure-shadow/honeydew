@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Column } from 'bloomer'
 import { Notification } from 'bloomer/lib/elements/Notification';
 import { Columns } from 'bloomer/lib/grid/Columns';
-import { Box } from 'bloomer/lib/elements/Box';
+import { Box, Button } from 'bloomer';
 class Home extends Component {
     state = {
         currentView: "Home",
@@ -65,9 +65,17 @@ class Home extends Component {
                     <Column isSize='1/3'>Projects:
                         <Notification color="success">
                             {this.state.projects.map(p => (
-                                    <Box key={p.id}> <h3>Project: {p.name} </h3>Description:
-                                        <p>{p.description}</p>
-                                        Estimated Cost: ${p.supplyCost} </Box>
+                                    <Box key={p.id}>
+                                        {p.name}  <Button isSize='small'
+                                                isColor='success'
+                                                isOutlined
+                                                onClick={this.props.showView}
+                                                id="task__project"
+                                                isPulled='right'
+                                                >
+                                            Details
+                                        </Button>
+                                    </Box>
                                 ))}
                         </Notification>
                     </Column>
