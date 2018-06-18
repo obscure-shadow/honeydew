@@ -31,7 +31,6 @@ class App extends Component {
   // View switcher -> passed to NavBar and Login
   // Argument can be an event (via NavBar) or a string (via Login)
   showView = (e, ...obj) => {
-    debugger
     let view = null
 
     // Click event triggered switching view
@@ -81,7 +80,7 @@ class App extends Component {
         case "logout":
           return <Login setActiveUser={this.setActiveUser} showView={this.showView} />
         case "edit":
-          return <Edit setActiveUser={this.setActiveUser} showView={this.showView} />
+          return <Edit {...this.state.viewProps} setActiveUser={this.setActiveUser} showView={this.showView} />
       }
     }
   };
