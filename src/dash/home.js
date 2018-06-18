@@ -78,7 +78,13 @@ class Home extends Component {
                                         {p.name}  <Button isSize='small'
                                                 isColor='success'
                                                 isOutlined
-                                                onClick={this.props.showView}
+                                                onClick={
+                                                    () => {
+                                                        this.props.showView("project", {
+                                                            projectId: p.id
+                                                        })
+                                                    }
+                                                }
                                                 id="task__project"
                                                 isPulled='right'
                                                 >

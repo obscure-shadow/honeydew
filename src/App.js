@@ -11,7 +11,8 @@ class App extends Component {
   state = {
     currentView: "login",
     activeUser: sessionStorage.getItem("userId"),
-    userName: sessionStorage.getItem("userName")
+    userName: sessionStorage.getItem("userName"),
+    viewProps: {}
   };
     setActiveUser = function(val) {
 
@@ -29,7 +30,8 @@ class App extends Component {
 
   // View switcher -> passed to NavBar and Login
   // Argument can be an event (via NavBar) or a string (via Login)
-  showView = function(e) {
+  showView = (e, ...obj) => {
+    debugger
     let view = null
 
     // Click event triggered switching view
@@ -48,9 +50,10 @@ class App extends Component {
 
     // Update state to correct view will be rendered
     this.setState({
-        currentView: view
+        currentView: view,
+        viewProps: Object.assign({}, ...obj)
     })
-  }.bind(this);
+  }
 
   View = () => {
     if (sessionStorage.getItem("userId") === null) {
@@ -74,7 +77,7 @@ class App extends Component {
         case "task":
           return <Task activeUser={this.state.activeUser} showView={this.showView}/>
         case "project":
-          return <Project activeUser={this.state.activeUser} showView={this.showView}/>
+          return <Project {...this.state.viewProps} activeUser={this.state.activeUser} showView={this.showView}/>
         case "logout":
           return <Login setActiveUser={this.setActiveUser} showView={this.showView} />
         case "edit":
