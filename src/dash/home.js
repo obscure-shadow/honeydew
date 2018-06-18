@@ -8,7 +8,8 @@ class Home extends Component {
         currentView: "Home",
         ownedBoxes:[],
         unownedBoxes:[],
-        projects:[]
+        projects:[],
+        projectId:""
 
     }
     componentDidMount() {
@@ -42,6 +43,13 @@ class Home extends Component {
         })
     }
 
+    // handleEdit = function (e) {
+    //     const thing = e
+    //     this.setState({
+    //         projectId: thing
+    //     })
+    //     this.showView
+    // }.bind(this)
 
     render() {
         return (
@@ -65,6 +73,7 @@ class Home extends Component {
                     <Column isSize='1/3'>Projects:
                         <Notification color="success">
                             {this.state.projects.map(p => (
+
                                     <Box key={p.id}>
                                         {p.name}  <Button isSize='small'
                                                 isColor='success'

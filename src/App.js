@@ -6,13 +6,14 @@ import Nav from "./nav/nav.js";
 import Tool from "./add/addtool.js"
 import Task from "./add/addtask.js"
 import Project from "./projects/project.js"
+import Edit from "./projects/edit.js"
 class App extends Component {
   state = {
     currentView: "login",
     activeUser: sessionStorage.getItem("userId"),
     userName: sessionStorage.getItem("userName")
   };
-  setActiveUser = function(val) {
+    setActiveUser = function(val) {
 
     this.setState({
       activeUser: val
@@ -74,6 +75,10 @@ class App extends Component {
           return <Task activeUser={this.state.activeUser} showView={this.showView}/>
         case "project":
           return <Project activeUser={this.state.activeUser} showView={this.showView}/>
+        case "logout":
+          return <Login setActiveUser={this.setActiveUser} showView={this.showView} />
+        case "edit":
+          return <Edit setActiveUser={this.setActiveUser} showView={this.showView} />
       }
     }
   };

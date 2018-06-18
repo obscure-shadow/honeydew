@@ -5,16 +5,17 @@ import { Button } from 'bloomer/lib/elements/Button';
 class Project extends Component {
     state = {
         currentView:"Project",
-        project:[]
+        project:[],
     }
+
     componentDidMount() {
-        fetch(`http://localhost:8088/project?owner=${this.props.activeUser}`)
+        fetch(`http://localhost:8088/project?owner=${this.props.activeUser}&id=${this.props.projectId}`)
             .then(p=> p.json())
             .then(projs => {
                 let proj = []
                 projs.forEach( p => proj.push(p))
                 this.setState({
-                    project: proj
+                    project: proj,
                 })
             })
     }
@@ -32,8 +33,9 @@ class Project extends Component {
                     <Button isColor='success'
                             isOutlined
                             onClick={this.props.showView}
-                            id="task__edit"
-                            isPulled='right'>Edit</Button>
+                            id="task__edit">
+                        Edit
+                    </Button>
                 </Box>
             ))}
             </Section>

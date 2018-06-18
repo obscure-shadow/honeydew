@@ -21,9 +21,10 @@ class Nav extends Component {
             return (
                 <Navbar style={{ border: 'solid 1px #00D1B2', margin: '0' }}>
                     <NavbarBurger isActive={this.state.isActive} onClick={this.onClickNav} />
-                    <NavbarItem id="nav__home" onClick={this.props.showView}>Home</NavbarItem>
-                    <NavbarItem id="nav__tool" onClick={this.props.showView}>Add Tool</NavbarItem>
-                    <NavbarItem id="nav__task" onClick={this.props.showView}>Add Project</NavbarItem>
+                    <NavbarItem id="nav__home" onClick={this.props.showView} href='#/'>Home</NavbarItem>
+                    <NavbarItem id="nav__tool" onClick={this.props.showView} href='#/'>Add Tool</NavbarItem>
+                    <NavbarItem id="nav__task" onClick={this.props.showView} href='#/'>Add Project</NavbarItem>
+                    <NavbarItem id="nav__logout" onClick={this.props.showView} href='#/'>Log Out</NavbarItem>
                     <NavbarEnd>
                         <NavbarItem>Welcome to Honeydew, {this.props.userName}</NavbarItem>
                     </NavbarEnd>
@@ -32,7 +33,7 @@ class Nav extends Component {
         } else {
             return(
                 <Navbar style={{ border: 'solid 1px #00D1B2', margin: '0' }}>
-                    <NavbarItem>Welcom to Honeydew!</NavbarItem>
+                    <NavbarItem>Welcome to Honeydew!</NavbarItem>
                     <NavbarEnd>
                         <NavbarItem>Please Login:</NavbarItem>
                         <NavbarItem>
