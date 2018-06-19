@@ -43,13 +43,6 @@ class Home extends Component {
         })
     }
 
-    // handleEdit = function (e) {
-    //     const thing = e
-    //     this.setState({
-    //         projectId: thing
-    //     })
-    //     this.showView
-    // }.bind(this)
 
     render() {
         return (

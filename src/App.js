@@ -12,7 +12,9 @@ class App extends Component {
     currentView: "login",
     activeUser: sessionStorage.getItem("userId"),
     userName: sessionStorage.getItem("userName"),
-    viewProps: {}
+    viewProps: {},
+    selected:"",
+    // tools:[]
   };
     setActiveUser = function(val) {
 
@@ -27,6 +29,30 @@ class App extends Component {
       userName: val
     });
   }.bind(this);
+
+  handleChange = function(event) {
+    this.setState({selected:event.target.value});
+    const relateTool = {
+        project: this.state.viewProps.projectId,
+        tool:event.target.value
+    }
+
+    // const toollist = this.state.tools.splice()
+    // toollist.push(event.target.value)
+    // this.setState({tools: toollist})
+    // this.addTool(relateTool)
+
+}.bind(this)
+
+addTool = function (e) {
+    fetch(`http://localhost:8088/projectTools`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(e)
+                })
+}
 
   // View switcher -> passed to NavBar and Login
   // Argument can be an event (via NavBar) or a string (via Login)
@@ -76,7 +102,11 @@ class App extends Component {
         case "task":
           return <Task activeUser={this.state.activeUser} showView={this.showView}/>
         case "project":
-          return <Project {...this.state.viewProps} activeUser={this.state.activeUser} showView={this.showView}/>
+          return <Project {...this.state.viewProps}
+                          activeUser={this.state.activeUser}
+                          showView={this.showView}
+                          handleChange={this.handleChange}
+                          addTool={this.addTool}/>
         case "logout":
           return <Login setActiveUser={this.setActiveUser} showView={this.showView} />
         case "edit":
