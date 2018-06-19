@@ -19,51 +19,67 @@ class Project extends Component {
         this.setState({unusedTools:[]})
         //fetch single project
         fetch(`http://localhost:8088/project?owner=${this.props.activeUser}&id=${this.props.projectId}`)
-            .then(p=> p.json())
-            .then(projs => {
-                let proj = []
-                projs.forEach( p => proj.push(p))
-                this.setState({
-                    project: proj,
-                })
+        .then(p=> p.json())
+        .then(projs => {
+            let proj = []
+            projs.forEach( p => proj.push(p))
+            this.setState({
+                project: proj,
             })
-            //fetch list of tool relationships by projectID & set to state
+        })
+        //fetch list of tool relationships by projectID & set to state
         fetch(`http://localhost:8088/projectTools?project=${this.props.projectId}`)
-            .then(p=> p.json())
-            //probably create a tools array, and map id of them into one request to find all
-            //related tools
-            .then(t => {
+        .then(p=> p.json())
+        //probably create a tools array, and map id of them into one request to find all
+        //related tools
+        .then(t => {
 
-                t.forEach(tool => toolsId.push(+tool.tool))
+            t.forEach(tool => toolsId.push(+tool.tool))
+            if (toolsId.length >0 ) {
                 const tmap = toolsId.map(ts => `id=${ts}&`).join("")
                 fetch(`http://localhost:8088/tool?${tmap}`)
+                .then(p => p.json())
+                .then(tools => {
+                    let toolList = []
+                    tools.forEach( tool => toolList.push(tool))
+                    this.setState({
+                        tools: toolList,
+                    })
+                })
+                .then(()=>{
+                    //pull list of unrelated tools
+                    fetch(`http://localhost:8088/tool`)
                     .then(p => p.json())
                     .then(tools => {
-                        let toolList = []
-                        tools.forEach( tool => toolList.push(tool))
-                        console.log("original set state toolList",toolList)
-                        this.setState({
-                            tools: toolList,
-                        })
-                    })
-                    .then(()=>{
-                        //pull list of unrelated tools
-                        fetch(`http://localhost:8088/tool`)
-                        .then(p => p.json())
-                        .then(tools => {
-                            let unTool = []
-                            tools.forEach( tool => {
-                                if (toolsId.indexOf(tool.id) < 0){
+                        let unTool = []
+                        tools.forEach( tool => {
+                            if (toolsId.indexOf(tool.id) < 0){
 
-                                        unTool.push(tool)
-                                }
-                            })
-                            this.setState({
-                                unusedTools: unTool
-                            })
+                                unTool.push(tool)
+                            }
+                        })
+                        this.setState({
+                            unusedTools: unTool
                         })
                     })
-            })
+                })
+            }else{
+                fetch(`http://localhost:8088/tool`)
+                    .then(p => p.json())
+                    .then(tools => {
+                        let unTool = []
+                        tools.forEach( tool => {
+                            if (toolsId.indexOf(tool.id) < 0){
+
+                                unTool.push(tool)
+                            }
+                        })
+                        this.setState({
+                            unusedTools: unTool
+                        })
+                    })
+            }
+        })
 
     }
 
@@ -76,20 +92,16 @@ class Project extends Component {
             .then(p => p.json())
             .then(tools => {
                 tools.forEach( t => {
-                    console.log('t.id, eventval',t.id, eventval)
                     if(parseInt(eventval, 10) === t.id){
                         toollist.push(t)
                     }
                 })
                 let newunUsed = []
-                console.log(this.state.unusedTools)
                 this.state.unusedTools.forEach(tool => {
-                    console.log (tool.id, parseInt(eventval, 10))
                     if (parseInt(eventval, 10) !== tool.id){
                         newunUsed.push(tool)
                     }
                 })
-                console.log('newunused array',newunUsed)
                 this.setState({
                     tools: toollist,
                     unusedTools: newunUsed

@@ -40,7 +40,7 @@ class App extends Component {
     // const toollist = this.state.tools.splice()
     // toollist.push(event.target.value)
     // this.setState({tools: toollist})
-    // this.addTool(relateTool)
+    this.addTool(relateTool)
 
 }.bind(this)
 
