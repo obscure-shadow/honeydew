@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Box, Section} from 'bloomer'
 import { Button } from 'bloomer/lib/elements/Button';
+import { Delete } from 'bloomer/lib/elements/Delete';
 
 
 class Project extends Component {
@@ -10,6 +11,7 @@ class Project extends Component {
         tools:[],
         unusedTools:[],
         selected:"",
+        deleted:""
     }
 
 
@@ -110,6 +112,25 @@ class Project extends Component {
             })
     }.bind(this)
 
+    deleteHandler = function(v) {
+        v.preventDefault()
+
+        if (v.hasOwnProperty('target')){
+            let del = v.target.id
+            let newToolArr = []
+
+            this.state.tools.forEach( tool => {
+                if  (parseInt(del, 10) !== tool.id){
+                    newToolArr.push(tool)
+                }
+            })
+            this.setState({
+                tools: newToolArr
+            })
+        }
+    }.bind(this)
+
+
     render(){
         return(
             <Section>
@@ -124,7 +145,9 @@ class Project extends Component {
                     {/* map list of tools */}
                     <p><strong>Tools:</strong></p>
                     {this.state.tools.map( t => (
-                        <li key={t.id}>{t.toolName}</li>
+                        <li key={t.id}>{t.toolName}
+                            <Delete id={t.id} onClick={this.deleteHandler}></Delete>
+                        </li>
                     ))}
                     {/* map unrelated tools into dropdown menu and then have the selection added to
                         the tool relationship table */}
