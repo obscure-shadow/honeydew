@@ -108,7 +108,8 @@ addTool = function (e) {
                           handleChange={this.handleChange}
                           addTool={this.addTool}/>
         case "logout":
-          return <Login setActiveUser={this.setActiveUser} showView={this.showView} />
+          return <strong>Please Log in!</strong>
+          // <Login setActiveUser={this.setActiveUser} showView={this.showView} />
         case "edit":
           return <Edit {...this.state.viewProps} setActiveUser={this.setActiveUser} showView={this.showView} />
       }
