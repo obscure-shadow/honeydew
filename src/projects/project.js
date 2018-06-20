@@ -118,14 +118,30 @@ class Project extends Component {
         if (v.hasOwnProperty('target')){
             let del = v.target.id
             let newToolArr = []
-
+            let newUut = this.state.unusedTools
+            // iterate through list of tools currently being used in the project
             this.state.tools.forEach( tool => {
+                //if the id of the deleted tool != the tool.id then push it to the new tool id
+                //or push the unused tool to the new unused tool array, then set the new arrays
+                //to state
                 if  (parseInt(del, 10) !== tool.id){
                     newToolArr.push(tool)
+                }else{
+                    newUut.push(tool)
                 }
             })
             this.setState({
-                tools: newToolArr
+                tools: newToolArr,
+                unusedTools: newUut
+            })
+            fetch(`http://localhost:8088/projectTools?project=${this.props.projectId}&tool=${del}`)
+            .then(p => p.json())
+            .then(relationships => {
+                relationships.forEach(rls => {
+                    fetch(`http://localhost:8088/projectTools/${rls.id}`,{
+                        method:"DELETE"
+                    })
+                })
             })
         }
     }.bind(this)
