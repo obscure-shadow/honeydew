@@ -146,6 +146,24 @@ class Project extends Component {
         }
     }.bind(this)
 
+    deleteProject = function (v) {
+        v.preventDefault()
+        const projtools = this.state.tools.map(p => `&tool=${p.id}`).join('')
+        fetch(`http://localhost:8088/projectTools?project=${this.props.projectId}${projtools}`)
+        .then(p => p.json())
+        .then(relationships => {
+            relationships.forEach(rls => {
+                    fetch(`http://localhost:8088/projectTools/${rls.id}`,{
+                            method:"DELETE"
+                        })
+                    })
+                })
+        fetch(`http://localhost:8088/project/${this.props.projectId}`,{
+                method:"DELETE"
+            })
+        .then(this.props.showView("home"))
+    }.bind(this)
+
 
     render(){
         return(
@@ -155,7 +173,7 @@ class Project extends Component {
                     <strong>{p.name}</strong>
                     <p><strong>Description:</strong> {p.description}</p>
                     <p><strong>Estimated Time:</strong> {p.estTime}</p>
-                    <p><strong>Estimated Supply Cost:</strong> {p.supplyCost}</p>
+                    <p><strong>Estimated Supply Cost:</strong> ${p.supplyCost}</p>
                     <p><strong>Finished:</strong> {p.finished}</p>
                     <p><strong>Time taken to complete:</strong> {p.finalTime}</p>
                     {/* map list of tools */}
@@ -186,6 +204,12 @@ class Project extends Component {
                             }
                             id="task__edit">
                         Edit
+                    </Button>
+                    <Button isColor='success'
+                            isOutlined
+                            onClick={this.deleteProject}
+                            id="task__edit">
+                        Delete
                     </Button>
                 </Box>
             ))}
