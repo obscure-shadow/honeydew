@@ -56,7 +56,6 @@ class Project extends Component {
                         let unTool = []
                         tools.forEach( tool => {
                             if (toolsId.indexOf(tool.id) < 0){
-
                                 unTool.push(tool)
                             }
                         })
@@ -72,7 +71,6 @@ class Project extends Component {
                         let unTool = []
                         tools.forEach( tool => {
                             if (toolsId.indexOf(tool.id) < 0){
-
                                 unTool.push(tool)
                             }
                         })

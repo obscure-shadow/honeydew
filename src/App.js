@@ -14,7 +14,14 @@ class App extends Component {
     userName: sessionStorage.getItem("userName"),
     viewProps: {},
     selected:"",
-    // tools:[]
+    ownedBoxes:[],
+    ownedTotal:0,
+    unownedTotal: 0,
+    unownedBoxes:[],
+    projects:[],
+    projectId:"",
+    projectTotal:0,
+    projectTtotal:0
   };
     setActiveUser = function(val) {
 
@@ -96,17 +103,29 @@ addTool = function (e) {
       switch (this.state.currentView) {
         case "home":
         default:
-          return <Home activeUser={this.state.activeUser} showView={this.showView} />;
+          return <Home activeUser={this.state.activeUser}
+                        showView={this.showView}
+                        fetchHome={this.fetchHome}
+                        ownedBoxes={this.state.ownedBoxes}
+                        ownedTotal={this.state.ownedTotal}
+                        unownedTotal={this.state.unownedTotal}
+                        unownedBoxes={this.state.unownedBoxes}
+                        projects={this.state.projects}
+                        projectId={this.state.projectId}
+                        projectTotal={this.state.projectTotal}
+                        projectTtotal={this.state.projectTtotal}/>;
         case "tool":
-          return <Tool activeUser={this.state.activeUser} showView={this.showView}/>
+          return <Tool activeUser={this.state.activeUser}
+                        showView={this.showView}/>
         case "task":
-          return <Task activeUser={this.state.activeUser} showView={this.showView}/>
+          return <Task activeUser={this.state.activeUser}
+                        showView={this.showView}/>
         case "project":
           return <Project {...this.state.viewProps}
-                          activeUser={this.state.activeUser}
-                          showView={this.showView}
-                          handleChange={this.handleChange}
-                          addTool={this.addTool}/>
+                        activeUser={this.state.activeUser}
+                        showView={this.showView}
+                        handleChange={this.handleChange}
+                        addTool={this.addTool}/>
         case "logout":
           return <strong>Please Log in!</strong>
           // <Login setActiveUser={this.setActiveUser} showView={this.showView} />
@@ -115,6 +134,75 @@ addTool = function (e) {
       }
     }
   };
+
+  fetchHome = function () {
+    fetch(`http://localhost:8088/tool?owner=${this.state.activeUser}&toolStatus=yes`)
+    .then(p=> p.json())
+    .then(tools => {
+        let box = []
+        let tot = 0
+        tools.forEach( tool => {
+            box.push(tool)
+            tot += parseInt(tool.toolPrice, 10)
+        })
+        this.setState({
+            ownedBoxes: box,
+            ownedTotal: tot
+        })
+    })
+    fetch(`http://localhost:8088/tool?owner=${this.state.activeUser}&toolStatus=no`)
+    .then(p=> p.json())
+    .then(tools => {
+        let unbox = []
+        let utot = 0
+        tools.forEach( tool => {
+            unbox.push(tool)
+            utot += parseInt(tool.toolPrice, 10)
+        })
+        this.setState({
+            unownedBoxes: unbox,
+            unownedTotal: utot
+        })
+    })
+
+    fetch(`http://localhost:8088/project?owner=${this.state.activeUser}`)
+    .then(p=> p.json())
+    .then(projects => {
+        let proj = []
+        let ptot = 0
+        projects.forEach( project => {
+            proj.push(project)
+            ptot += parseInt(project.supplyCost, 10)
+            // fetch(`http://localhost:8088/projectTools?project=${project.id}`)
+            // .then(p => p.json())
+            // .then(projectTools => {
+            //     let ptools = []
+            //     projectTools.forEach(t => ptools.push(t.tool))
+            //     let ptmap = ptools.map( p => `id=${p}&`).join("")
+            //     fetch(`http://localhost:8088/tool?${ptmap}`)
+            //         .then(p => p.json())
+            //         .then(tools => {
+            //             let toolcost = 0
+            //             tools.forEach(tool => {
+            //                 if (tool.toolStatus === "no"){
+            //                     toolcost += parseInt(tool.toolPrice, 10)
+            //                 }
+            //             })
+            //             this.setState({
+            //                 projectTtotal: toolcost
+            //             })
+            //         })
+            // })
+        })
+        this.setState({
+            projects: proj,
+            projectTotal: ptot
+        })
+    })
+
+}.bind(this)
+
+
 
   render() {
     return (
