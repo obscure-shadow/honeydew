@@ -46,9 +46,9 @@ class App extends Component {
     }
     this.addTool(relateTool)
 
-}.bind(this)
+  }.bind(this)
 
-addTool = function (e) {
+  addTool = function (e) {
     fetch(`http://localhost:8088/projectTools`, {
                     method: "POST",
                     headers: {
@@ -56,7 +56,7 @@ addTool = function (e) {
                     },
                     body: JSON.stringify(e)
                 })
-}
+  }
 
   // View switcher -> passed to NavBar and Login
   // Argument can be an event (via NavBar) or a string (via Login)
@@ -109,7 +109,8 @@ addTool = function (e) {
                         projects={this.state.projects}
                         projectId={this.state.projectId}
                         projectTotal={this.state.projectTotal}
-                        projectTtotal={this.state.projectTtotal}/>;
+                        projectTtotal={this.state.projectTtotal}
+                        projectCost={this.projectCost}/>;
         case "tool":
           return <Tool activeUser={this.state.activeUser}
                         showView={this.showView}/>
@@ -168,45 +169,45 @@ addTool = function (e) {
         })
     })
 
-    //fetch all ongoing projects and thier materials cost and add them to state
+    //fetch all ongoing projects and their materials cost and add them to state
 
     fetch(`http://localhost:8088/project?owner=${this.state.activeUser}`)
     .then(p=> p.json())
     .then(projects => {
-        let proj = []
-        let ptot = 0
-        projects.forEach( project => {
-            proj.push(project)
-            ptot += parseInt(project.supplyCost, 10)
-            // fetch(`http://localhost:8088/projectTools?project=${project.id}`)
-            // .then(p => p.json())
-            // .then(projectTools => {
-            //     let ptools = []
-            //     projectTools.forEach(t => ptools.push(t.tool))
-            //     let ptmap = ptools.map( p => `id=${p}&`).join("")
-            //     fetch(`http://localhost:8088/tool?${ptmap}`)
-            //         .then(p => p.json())
-            //         .then(tools => {
-            //             let toolcost = 0
-            //             tools.forEach(tool => {
-            //                 if (tool.toolStatus === "no"){
-            //                     toolcost += parseInt(tool.toolPrice, 10)
-            //                 }
-            //             })
-            //             this.setState({
-            //                 projectTtotal: toolcost
-            //             })
-            //         })
-            // })
+      let proj = []
+      let ptot = 0
+      projects.forEach( project => {
+          proj.push(project)
+          ptot += parseInt(project.supplyCost, 10)
         })
         this.setState({
-            projects: proj,
-            projectTotal: ptot
+          projects: proj,
+          projectTotal: ptot
         })
-    })
+      })
 
-}.bind(this)
+  }.bind(this)
 
+projectCost = function (pid) {
+  fetch(`http://localhost:8088/projectTools?project=${pid}`)
+  .then(p => p.json())
+  .then(projectTools => {
+      let ptools = []
+      projectTools.forEach(t => ptools.push(t.tool))
+      let ptmap = ptools.map( p => `id=${p}&`).join("")
+      fetch(`http://localhost:8088/tool?${ptmap}`)
+          .then(p => p.json())
+          .then(tools => {
+              let toolcost = 0
+              tools.forEach(tool => {
+                  if (tool.toolStatus === "no"){
+                      toolcost += parseInt(tool.toolPrice, 10)
+                  }
+              })
+              return toolcost
+          })
+  })
+}
 
 
   render() {
