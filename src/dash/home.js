@@ -7,47 +7,15 @@ import { Delete } from 'bloomer/lib/elements/Delete';
 class Home extends Component {
     state = {
         currentView: "Home",
-        ownedBoxes:[],
-        unownedBoxes:[],
-        projects:[],
-        projectId:"",
-        refetch:"0"
-
     }
     componentDidMount() {
-        fetch(`http://localhost:8088/tool?owner=${this.props.activeUser}&toolStatus=yes`)
-            .then(p=> p.json())
-            .then(tools => {
-                let box = []
-                    tools.forEach( tool => box.push(tool))
-                    this.setState({
-                        ownedBoxes: box
-                    })
-            })
-        fetch(`http://localhost:8088/tool?owner=${this.props.activeUser}&toolStatus=no`)
-        .then(p=> p.json())
-        .then(tools => {
-            let unbox = []
-                tools.forEach( tool => unbox.push(tool))
-                this.setState({
-                    unownedBoxes: unbox
-                })
-        })
-
-        fetch(`http://localhost:8088/project?owner=${this.props.activeUser}`)
-        .then(p=> p.json())
-        .then(projects => {
-            let proj = []
-                projects.forEach( project => proj.push(project))
-                this.setState({
-                    projects: proj
-                })
-        })
+        this.props.fetchHome()
     }
+
 
 
     deleteTool = function (t){
-        t.preventDefault()
+
         if (t.hasOwnProperty("target")){
             let id = t.target.id
             fetch(`http://localhost:8088/tool/${id}`,{
@@ -62,27 +30,7 @@ class Home extends Component {
                     })
                 })
             })
-            .then(
-                fetch(`http://localhost:8088/tool?owner=${this.props.activeUser}&toolStatus=yes`)
-                    .then(p=> p.json())
-                    .then(tools => {
-                        let box = []
-                            tools.forEach( tool => box.push(tool))
-                            this.setState({
-                                ownedBoxes: box
-                            })
-                    })
-                .then(fetch(`http://localhost:8088/tool?owner=${this.props.activeUser}&toolStatus=no`)
-                .then(p=> p.json())
-                .then(tools => {
-                    let unbox = []
-                        tools.forEach( tool => unbox.push(tool))
-                        this.setState({
-                            unownedBoxes: unbox
-                        })
-                }))
-            )
-
+            .then(() => this.props.fetchHome())
     }
 }.bind(this)
 
@@ -92,29 +40,31 @@ class Home extends Component {
                 <Columns isCentered>
                     <Column isSize='1/3'>Toolbox:
                         <Notification color="success">
-                            {this.state.ownedBoxes.map(t => (
+                            {this.props.ownedBoxes.map(t => (
                                 <Box key={t.id}> <h3>Tool: {t.toolName} </h3>
                                     Price: ${t.toolPrice}
                                     <Delete id={t.id} onClick={this.deleteTool}></Delete>
                                 </Box>
                             ))}
+                            <Box key='owned_total' hasTextColor="info">Total: ${this.props.ownedTotal}</Box>
                         </Notification>
                     </Column>
                     <Column isSize='1/3'>Tools To Get:
                         <Notification color="success">
-                            {this.state.unownedBoxes.map(t => (
+                            {this.props.unownedBoxes.map(t => (
                                 <Box key={t.id}> <h3>Tool: {t.toolName} </h3>
                                     Price: ${t.toolPrice}
                                     <Delete id={t.id} onClick={this.deleteTool}></Delete>
                                 </Box>
                                 ))}
+                                <Box key='unowned_total' hasTextColor="info">Total: ${this.props.unownedTotal}</Box>
                         </Notification>
                     </Column>
                     <Column isSize='1/3'>Projects:
                         <Notification color="success">
-                            {this.state.projects.map(p => (
+                            {this.props.projects.map(p => (
 
-                                    <Box key={p.id}>
+                                <Box key={p.id}>
                                         {p.name}  <Button isSize='small'
                                                 isColor='success'
                                                 isOutlined
@@ -130,8 +80,10 @@ class Home extends Component {
                                                 >
                                             Details
                                         </Button>
+                                        <p>Supply Cost: ${p.supplyCost}</p>
                                     </Box>
                                 ))}
+                                <Box key='project_total' hasTextColor="info">Total: ${this.props.projectTotal}</Box>
                         </Notification>
                     </Column>
                 </Columns>
