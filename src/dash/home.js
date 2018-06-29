@@ -12,8 +12,6 @@ class Home extends Component {
         this.props.fetchHome()
     }
 
-
-
     deleteTool = function (t){
 
         if (t.hasOwnProperty("target")){
@@ -31,9 +29,36 @@ class Home extends Component {
                 })
             })
             .then(() => this.props.fetchHome())
-    }
-}.bind(this)
+        }
+    }.bind(this)
 
+    purchaseTool = function (t) {
+        if (t.hasOwnProperty){
+            let id = t.target.id
+            fetch(`http://localhost:8088/tool/${id}`,{
+                method:"PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                    },
+                body: JSON.stringify({toolStatus: "yes"})
+            })
+            .then(() => this.props.fetchHome())
+        }
+    }.bind(this)
+
+    lostTool = function (t) {
+        if (t.hasOwnProperty){
+            let id = t.target.id
+            fetch(`http://localhost:8088/tool/${id}`,{
+                method:"PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                    },
+                body: JSON.stringify({toolStatus: "no"})
+            })
+            .then(() => this.props.fetchHome())
+        }
+    }.bind(this)
 
     render() {
         return (
@@ -44,6 +69,12 @@ class Home extends Component {
                                 <Box key={t.id}> <h3>Tool: {t.toolName} </h3>
                                     Price: ${t.toolPrice}
                                     <Delete id={t.id} onClick={this.deleteTool}></Delete>
+                                    <Button id={t.id}
+                                        onClick={this.lostTool}
+                                        isColor="success"
+                                        isOutlined
+                                        isSize="small"
+                                        isPulled="right">Lost</Button>
                                 </Box>
                             ))}
                             <Box key='owned_total' hasTextColor="info">Total: ${this.props.ownedTotal}</Box>
@@ -55,6 +86,12 @@ class Home extends Component {
                                 <Box key={t.id}> <h3>Tool: {t.toolName} </h3>
                                     Price: ${t.toolPrice}
                                     <Delete id={t.id} onClick={this.deleteTool}></Delete>
+                                    <Button id={t.id}
+                                        onClick={this.purchaseTool}
+                                        isColor="success"
+                                        isSize="small"
+                                        isOutlined
+                                        isPulled="right">Purchase</Button>
                                 </Box>
                                 ))}
                                 <Box key='unowned_total' hasTextColor="info">Total: ${this.props.unownedTotal}</Box>
@@ -65,7 +102,8 @@ class Home extends Component {
                             {this.props.projects.map(p => (
 
                                 <Box key={p.id}>
-                                        {p.name}  <Button isSize='small'
+                                        {p.name}
+                                        <Button isSize='small'
                                                 isColor='success'
                                                 isOutlined
                                                 onClick={
