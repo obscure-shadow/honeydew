@@ -23,7 +23,8 @@ class App extends Component {
     projectTotal:0,
     projectTtotal:0
   };
-    setActiveUser = function(val) {
+
+  setActiveUser = function(val) {
 
     this.setState({
       activeUser: val
@@ -94,8 +95,7 @@ addTool = function (e) {
       );
       /* TODO:
 
-            make a splash page so that there will be something there instead of
-            the extra log in field. perhaps some kind of like registration kinda
+            perhaps some kind of like registration kinda
             deal thing, maybe... or whatever...
 
         */
@@ -136,6 +136,9 @@ addTool = function (e) {
   };
 
   fetchHome = function () {
+
+    // fetch all tools that are owned and a total of their value and add them to state
+
     fetch(`http://localhost:8088/tool?owner=${this.state.activeUser}&toolStatus=yes`)
     .then(p=> p.json())
     .then(tools => {
@@ -150,6 +153,10 @@ addTool = function (e) {
             ownedTotal: tot
         })
     })
+
+    //fetch all the tools that are not owned and thier value and add them to state
+
+
     fetch(`http://localhost:8088/tool?owner=${this.state.activeUser}&toolStatus=no`)
     .then(p=> p.json())
     .then(tools => {
@@ -164,6 +171,8 @@ addTool = function (e) {
             unownedTotal: utot
         })
     })
+
+    //fetch all ongoing projects and thier materials cost and add them to state
 
     fetch(`http://localhost:8088/project?owner=${this.state.activeUser}`)
     .then(p=> p.json())
