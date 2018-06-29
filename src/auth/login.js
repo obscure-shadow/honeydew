@@ -23,8 +23,6 @@ class Login extends Component {
                         TODO:
                             -some kinda maybe register or...something or the other like that,
                             or like, whatever man.
-                            -maybe like, people might want to logout or something to,
-                            or something like that sometime....
                     */
                 }
                 // add user to session storage, because like, ya know, why not?
