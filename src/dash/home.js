@@ -119,7 +119,7 @@ class Home extends Component {
                                             Details
                                         </Button>
                                         <p>Supply Cost: ${p.supplyCost}</p>
-                                        <p>{this.props.projectTotal(p.id)}</p>
+                                        <p>Project cost:{this.props.projectCost(p.id)}</p>
                                     </Box>
                                 ))}
                                 <Box key='project_total' hasTextColor="info">Total: ${this.props.projectTotal}</Box>

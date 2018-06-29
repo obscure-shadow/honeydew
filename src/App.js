@@ -21,7 +21,6 @@ class App extends Component {
     projects:[],
     projectId:"",
     projectTotal:0,
-    projectTtotal:0
   };
 
   setActiveUser = function(val) {
@@ -109,7 +108,6 @@ class App extends Component {
                         projects={this.state.projects}
                         projectId={this.state.projectId}
                         projectTotal={this.state.projectTotal}
-                        projectTtotal={this.state.projectTtotal}
                         projectCost={this.projectCost}/>;
         case "tool":
           return <Tool activeUser={this.state.activeUser}
@@ -127,7 +125,9 @@ class App extends Component {
           return <strong>Please Log in!</strong>
           // <Login setActiveUser={this.setActiveUser} showView={this.showView} />
         case "edit":
-          return <Edit {...this.state.viewProps} setActiveUser={this.setActiveUser} showView={this.showView} />
+          return <Edit {...this.state.viewProps}
+                        setActiveUser={this.setActiveUser}
+                        showView={this.showView} />
       }
     }
   };
@@ -151,7 +151,7 @@ class App extends Component {
         })
     })
 
-    //fetch all the tools that are not owned and thier value and add them to state
+    //fetch all the tools that are not owned and their value and add them to state
 
 
     fetch(`http://localhost:8088/tool?owner=${this.state.activeUser}&toolStatus=no`)
@@ -194,18 +194,24 @@ projectCost = function (pid) {
   .then(projectTools => {
       let ptools = []
       projectTools.forEach(t => ptools.push(t.tool))
-      let ptmap = ptools.map( p => `id=${p}&`).join("")
-      fetch(`http://localhost:8088/tool?${ptmap}`)
-          .then(p => p.json())
-          .then(tools => {
-              let toolcost = 0
-              tools.forEach(tool => {
-                  if (tool.toolStatus === "no"){
-                      toolcost += parseInt(tool.toolPrice, 10)
-                  }
-              })
-              return toolcost
+      if (ptools.length > 0){
+        let ptmap = ptools.map( p => `id=${p}&`).join("")
+        fetch(`http://localhost:8088/tool?${ptmap}`)
+        .then(p => p.json())
+        .then(tools => {
+          let toolcost = 0
+          tools.forEach(tool => {
+            console.log(tool)
+            if (tool.toolStatus === "no"){
+              toolcost += parseInt(tool.toolPrice, 10)
+            }
           })
+          console.log(toolcost)
+          return toolcost
+        })
+      }else {
+        return 0;
+      }
   })
 }
 
