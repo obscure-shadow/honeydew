@@ -100,7 +100,6 @@ class Home extends Component {
                     <Column isSize='1/3'>Projects:
                         <Notification color="success">
                             {this.props.projects.map(p => (
-
                                 <Box key={p.id}>
                                         {p.name}
                                         <Button isSize='small'
@@ -119,7 +118,7 @@ class Home extends Component {
                                             Details
                                         </Button>
                                         <p>Supply Cost: ${p.supplyCost}</p>
-                                        <p>Project cost:{this.props.projectCost(p.id)}</p>
+                                        <p>Tool cost:{p.toolcost}</p>
                                     </Box>
                                 ))}
                                 <Box key='project_total' hasTextColor="info">Total: ${this.props.projectTotal}</Box>

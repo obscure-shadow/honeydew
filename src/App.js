@@ -177,43 +177,41 @@ class App extends Component {
       let proj = []
       let ptot = 0
       projects.forEach( project => {
-          proj.push(project)
-          ptot += parseInt(project.supplyCost, 10)
-        })
-        this.setState({
-          projects: proj,
-          projectTotal: ptot
-        })
-      })
+        let toolcost = 0
+          fetch(`http://localhost:8088/projectTools?project=${project.id}`)
+          .then(p => p.json())
+          .then(projectTools => {
+              let ptools = []
+              projectTools.forEach(t => ptools.push(t.tool))
+              console.log(ptools)
+              if (ptools.length > 0){
+                let ptmap = ptools.map( p => `id=${p}&`).join("")
+                fetch(`http://localhost:8088/tool?${ptmap}`)
+                .then(p => p.json())
+                .then(tools => {
+                  tools.forEach(tool => {
+                    if (tool.toolStatus === "no"){
+                      toolcost += parseInt(tool.toolPrice, 10)
+                    }
+                  })
+                  project.toolcost = toolcost
+                })
+              }
 
+            })
+            proj.push(project)
+            ptot += parseInt(project.supplyCost, 10)
+            setTimeout(()=>{
+
+              this.setState({
+                projects: proj,
+                projectTotal: ptot
+              })
+            }, 50)
+          })
+    })
   }.bind(this)
 
-projectCost = function (pid) {
-  fetch(`http://localhost:8088/projectTools?project=${pid}`)
-  .then(p => p.json())
-  .then(projectTools => {
-      let ptools = []
-      projectTools.forEach(t => ptools.push(t.tool))
-      if (ptools.length > 0){
-        let ptmap = ptools.map( p => `id=${p}&`).join("")
-        fetch(`http://localhost:8088/tool?${ptmap}`)
-        .then(p => p.json())
-        .then(tools => {
-          let toolcost = 0
-          tools.forEach(tool => {
-            console.log(tool)
-            if (tool.toolStatus === "no"){
-              toolcost += parseInt(tool.toolPrice, 10)
-            }
-          })
-          console.log(toolcost)
-          return toolcost
-        })
-      }else {
-        return 0;
-      }
-  })
-}
 
 
   render() {
