@@ -65,6 +65,7 @@ class Addtool extends Component {
     render() {
         return(
             <form className="addTool--form" onSubmit={this.handleSubmit}>
+              <h2> Add a tool:</h2>
                 <Field>
                     <Input type="text"
                         id='toolName'
