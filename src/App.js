@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import "./App.css";
 import Login from "./auth/login.js";
 import Home from "./dash/home.js";
-import Nav from "./nav/nav.js";
+import Nav from "./components/nav/nav.js";
 import Tool from "./add/addtool.js"
 import Task from "./add/addtask.js"
 import Project from "./projects/project.js"
 import Edit from "./projects/edit.js"
+
 class App extends Component {
   state = {
     currentView: "login",
