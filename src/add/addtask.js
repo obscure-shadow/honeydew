@@ -73,6 +73,7 @@ class Task extends Component {
     render() {
         return(
             <form className="addTool--form" onSubmit={this.handleSubmit}>
+              <h2>Add a new project:</h2>
                 <Field>
                     <Input type="text"
                         id='taskName'

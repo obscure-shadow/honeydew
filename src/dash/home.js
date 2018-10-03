@@ -62,6 +62,7 @@ class Home extends Component {
 
     render() {
         return (
+          <div className='dash'>
                 <Columns isCentered>
                     <Column isSize='1/3'>Toolbox:
                         <Notification color="success">
@@ -77,7 +78,6 @@ class Home extends Component {
                                         isPulled="right">Lost</Button>
                                 </Box>
                             ))}
-                            <Box key='owned_total' hasTextColor="info">Total: ${this.props.ownedTotal}</Box>
                         </Notification>
                     </Column>
                     <Column isSize='1/3'>Tools To Get:
@@ -94,7 +94,6 @@ class Home extends Component {
                                         isPulled="right">Purchase</Button>
                                 </Box>
                                 ))}
-                                <Box key='unowned_total' hasTextColor="info">Total: ${this.props.unownedTotal}</Box>
                         </Notification>
                     </Column>
                     <Column isSize='1/3'>Projects:
@@ -121,10 +120,15 @@ class Home extends Component {
                                         <p>Tool cost:{p.toolcost}</p>
                                     </Box>
                                 ))}
-                                <Box key='project_total' hasTextColor="info">Total: ${this.props.projectTotal}</Box>
                         </Notification>
                     </Column>
                 </Columns>
+                <div className="totals" >
+                    <Box key='owned_total' hasTextColor="info">Total: ${this.props.ownedTotal}</Box>
+                    <Box key='unowned_total' hasTextColor="info">Total: ${this.props.unownedTotal}</Box>
+                    <Box key='project_total' hasTextColor="info">Total: ${this.props.projectTotal}</Box>
+                </div>
+          </div>
         )
     }
 }
